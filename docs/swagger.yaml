@@ -1,0 +1,4143 @@
+basePath: /api/v1
+definitions:
+  go-tasks_internal_collaborator.CollaboratorRole:
+    enum:
+    - OWNER
+    - MANAGER
+    - OPS
+    type: string
+    x-enum-varnames:
+    - CollaboratorRoleOwner
+    - CollaboratorRoleManager
+    - CollaboratorRoleOps
+  go-tasks_internal_lifecycle.LifecycleStatusDTO:
+    enum:
+    - CREATED
+    - IN_PROGRESS
+    - BLOCKED
+    - COMPLETED
+    - CANCELLED
+    type: string
+    x-enum-varnames:
+    - LifecycleStatusCreatedDTO
+    - LifecycleStatusInProgressDTO
+    - LifecycleStatusBlockedDTO
+    - LifecycleStatusCompletedDTO
+    - LifecycleStatusCancelledDTO
+  go-tasks_internal_pkg_httpx.ErrorResponse:
+    properties:
+      data: {}
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.MessageDTO:
+    properties:
+      message:
+        example: operation completed
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Paginated-internal_activity_CompanyActivityDTO:
+    properties:
+      count:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/internal_activity.CompanyActivityDTO'
+        type: array
+    type: object
+  go-tasks_internal_pkg_httpx.Paginated-internal_activity_OwnActivityDTO:
+    properties:
+      count:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/internal_activity.OwnActivityDTO'
+        type: array
+    type: object
+  go-tasks_internal_pkg_httpx.Paginated-internal_assignment_TaskAssignmentDTO:
+    properties:
+      count:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/internal_assignment.TaskAssignmentDTO'
+        type: array
+    type: object
+  go-tasks_internal_pkg_httpx.Paginated-internal_collaborator_AccountCollaboratorDTO:
+    properties:
+      count:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/internal_collaborator.AccountCollaboratorDTO'
+        type: array
+    type: object
+  go-tasks_internal_pkg_httpx.Paginated-internal_collaborator_CompanyCollaborator:
+    properties:
+      count:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/internal_collaborator.CompanyCollaborator'
+        type: array
+    type: object
+  go-tasks_internal_pkg_httpx.Paginated-internal_collaborator_CompanyCollaboratorDTO:
+    properties:
+      count:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/internal_collaborator.CompanyCollaboratorDTO'
+        type: array
+    type: object
+  go-tasks_internal_pkg_httpx.Paginated-internal_company_CompanyDTO:
+    properties:
+      count:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/internal_company.CompanyDTO'
+        type: array
+    type: object
+  go-tasks_internal_pkg_httpx.Paginated-internal_participation_ActivityParticipationDTO:
+    properties:
+      count:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/internal_participation.ActivityParticipationDTO'
+        type: array
+    type: object
+  go-tasks_internal_pkg_httpx.Paginated-internal_participation_CollaboratorParticipationDTO:
+    properties:
+      count:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/internal_participation.CollaboratorParticipationDTO'
+        type: array
+    type: object
+  go-tasks_internal_pkg_httpx.Paginated-internal_task_ActivityTaskDTO:
+    properties:
+      count:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/internal_task.ActivityTaskDTO'
+        type: array
+    type: object
+  go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO:
+    properties:
+      data:
+        $ref: '#/definitions/go-tasks_internal_pkg_httpx.MessageDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_activity_CompanyActivityDTO:
+    properties:
+      data:
+        $ref: '#/definitions/go-tasks_internal_pkg_httpx.Paginated-internal_activity_CompanyActivityDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_activity_OwnActivityDTO:
+    properties:
+      data:
+        $ref: '#/definitions/go-tasks_internal_pkg_httpx.Paginated-internal_activity_OwnActivityDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_assignment_TaskAssignmentDTO:
+    properties:
+      data:
+        $ref: '#/definitions/go-tasks_internal_pkg_httpx.Paginated-internal_assignment_TaskAssignmentDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_collaborator_AccountCollaboratorDTO:
+    properties:
+      data:
+        $ref: '#/definitions/go-tasks_internal_pkg_httpx.Paginated-internal_collaborator_AccountCollaboratorDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_collaborator_CompanyCollaborator:
+    properties:
+      data:
+        $ref: '#/definitions/go-tasks_internal_pkg_httpx.Paginated-internal_collaborator_CompanyCollaborator'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_collaborator_CompanyCollaboratorDTO:
+    properties:
+      data:
+        $ref: '#/definitions/go-tasks_internal_pkg_httpx.Paginated-internal_collaborator_CompanyCollaboratorDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_company_CompanyDTO:
+    properties:
+      data:
+        $ref: '#/definitions/go-tasks_internal_pkg_httpx.Paginated-internal_company_CompanyDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_participation_ActivityParticipationDTO:
+    properties:
+      data:
+        $ref: '#/definitions/go-tasks_internal_pkg_httpx.Paginated-internal_participation_ActivityParticipationDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_participation_CollaboratorParticipationDTO:
+    properties:
+      data:
+        $ref: '#/definitions/go-tasks_internal_pkg_httpx.Paginated-internal_participation_CollaboratorParticipationDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_task_ActivityTaskDTO:
+    properties:
+      data:
+        $ref: '#/definitions/go-tasks_internal_pkg_httpx.Paginated-internal_task_ActivityTaskDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-internal_activity_CompanyActivityDTO:
+    properties:
+      data:
+        $ref: '#/definitions/internal_activity.CompanyActivityDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-internal_activity_OwnActivityDTO:
+    properties:
+      data:
+        $ref: '#/definitions/internal_activity.OwnActivityDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-internal_assignment_AssignmentDTO:
+    properties:
+      data:
+        $ref: '#/definitions/internal_assignment.AssignmentDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-internal_auth_AuthDataDTO:
+    properties:
+      data:
+        $ref: '#/definitions/internal_auth.AuthDataDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-internal_auth_AuthTokenResposne:
+    properties:
+      data:
+        $ref: '#/definitions/internal_auth.AuthTokenResposne'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-internal_collaborator_CollaboratorInfoDTO:
+    properties:
+      data:
+        $ref: '#/definitions/internal_collaborator.CollaboratorInfoDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-internal_collaborator_CompanyCollaboratorDTO:
+    properties:
+      data:
+        $ref: '#/definitions/internal_collaborator.CompanyCollaboratorDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-internal_company_CompanyDTO:
+    properties:
+      data:
+        $ref: '#/definitions/internal_company.CompanyDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-internal_participation_ParticipationInfoDTO:
+    properties:
+      data:
+        $ref: '#/definitions/internal_participation.ParticipationInfoDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-internal_rating_RatingDTO:
+    properties:
+      data:
+        $ref: '#/definitions/internal_rating.RatingDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-internal_task_ActivityTaskDTO:
+    properties:
+      data:
+        $ref: '#/definitions/internal_task.ActivityTaskDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  go-tasks_internal_pkg_httpx.Response-internal_task_TaskDTO:
+    properties:
+      data:
+        $ref: '#/definitions/internal_task.TaskDTO'
+      error:
+        type: string
+      path:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  internal_activity.ActivityAccountDTO:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+      username:
+        type: string
+    type: object
+  internal_activity.ActivityCollaboratorDTO:
+    properties:
+      account:
+        $ref: '#/definitions/internal_activity.ActivityAccountDTO'
+      account_id:
+        type: string
+      company_id:
+        type: string
+      id:
+        type: string
+      role:
+        type: string
+    type: object
+  internal_activity.ActivityCreateDTO:
+    properties:
+      lifecycle:
+        $ref: '#/definitions/internal_activity.ActivityLifecycleCreateDTO'
+      owner_id:
+        type: string
+      title:
+        type: string
+    type: object
+  internal_activity.ActivityLifecycleCreateDTO:
+    properties:
+      due_date:
+        type: string
+      init_date:
+        type: string
+    type: object
+  internal_activity.ActivityLifecycleDTO:
+    properties:
+      due_date:
+        type: string
+      id:
+        type: string
+      init_date:
+        type: string
+      status:
+        type: string
+      updates:
+        items:
+          $ref: '#/definitions/internal_activity.ActivityStatusUpdateDTO'
+        type: array
+    type: object
+  internal_activity.ActivityLifecycleUpdateDTO:
+    properties:
+      due_date:
+        type: string
+      init_date:
+        type: string
+    type: object
+  internal_activity.ActivityStatusUpdateDTO:
+    properties:
+      id:
+        type: string
+      lifecycle_id:
+        type: string
+      status_after:
+        type: string
+      status_before:
+        type: string
+      update_date:
+        type: string
+    type: object
+  internal_activity.ActivityUpdateDTO:
+    properties:
+      lifecycle:
+        $ref: '#/definitions/internal_activity.ActivityLifecycleUpdateDTO'
+      owner_id:
+        type: string
+      title:
+        type: string
+    type: object
+  internal_activity.ActivityUpdateStatusDTO:
+    properties:
+      status:
+        $ref: '#/definitions/go-tasks_internal_lifecycle.LifecycleStatusDTO'
+    type: object
+  internal_activity.CompanyActivityDTO:
+    properties:
+      active:
+        type: boolean
+      company_id:
+        type: string
+      created_by:
+        $ref: '#/definitions/internal_activity.ActivityCollaboratorDTO'
+      created_by_id:
+        type: string
+      id:
+        type: string
+      lifecycle:
+        $ref: '#/definitions/internal_activity.ActivityLifecycleDTO'
+      lifecycle_id:
+        type: string
+      owner:
+        $ref: '#/definitions/internal_activity.ActivityCollaboratorDTO'
+      owner_id:
+        type: string
+      title:
+        type: string
+    type: object
+  internal_activity.OwnActivityCreateDTO:
+    properties:
+      lifecycle:
+        $ref: '#/definitions/internal_activity.ActivityLifecycleCreateDTO'
+      title:
+        type: string
+    type: object
+  internal_activity.OwnActivityDTO:
+    properties:
+      active:
+        type: boolean
+      company_id:
+        type: string
+      created_by:
+        $ref: '#/definitions/internal_activity.ActivityCollaboratorDTO'
+      created_by_id:
+        type: string
+      id:
+        type: string
+      lifecycle:
+        $ref: '#/definitions/internal_activity.ActivityLifecycleDTO'
+      lifecycle_id:
+        type: string
+      owner_id:
+        type: string
+      title:
+        type: string
+    type: object
+  internal_assignment.AssignmentAccountDTO:
+    properties:
+      email:
+        example: alice.smith@example.com
+        type: string
+      id:
+        example: 213e4567-e89b-12d3-a456-426614174000
+        type: string
+      name:
+        example: Alice Smith
+        type: string
+      phone:
+        example: +1-202-555-0175
+        type: string
+      username:
+        example: asmith
+        type: string
+    type: object
+  internal_assignment.AssignmentCollaboratorCreateDTO:
+    properties:
+      activity_id:
+        example: b23e4567-e89b-12d3-a456-426614174000
+        type: string
+      assign_date:
+        example: "2024-12-20T09:00:00Z"
+        type: string
+      assign_end_date:
+        example: "2025-01-15T17:00:00Z"
+        type: string
+    type: object
+  internal_assignment.AssignmentCollaboratorDTO:
+    properties:
+      account:
+        $ref: '#/definitions/internal_assignment.AssignmentAccountDTO'
+      account_id:
+        example: e23e4567-e89b-12d3-a456-426614174000
+        type: string
+      active:
+        example: true
+        type: boolean
+      company_id:
+        example: d23e4567-e89b-12d3-a456-426614174000
+        type: string
+      id:
+        example: c23e4567-e89b-12d3-a456-426614174000
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/go-tasks_internal_collaborator.CollaboratorRole'
+        example: MANAGER
+    type: object
+  internal_assignment.AssignmentCreateDTO:
+    properties:
+      assign_date:
+        example: "2024-12-20T09:00:00Z"
+        type: string
+      assign_end_date:
+        example: "2025-01-15T17:00:00Z"
+        type: string
+      assigned_to_id:
+        example: 623e4567-e89b-12d3-a456-426614174000
+        type: string
+    type: object
+  internal_assignment.AssignmentDTO:
+    properties:
+      active:
+        example: true
+        type: boolean
+      assign_date:
+        example: "2025-01-01T10:00:00Z"
+        type: string
+      assign_end_date:
+        example: "2025-01-15T18:00:00Z"
+        type: string
+      assigned_to_id:
+        example: 623e4567-e89b-12d3-a456-426614174000
+        type: string
+      assignedTo:
+        $ref: '#/definitions/internal_assignment.AssignmentParticipationDTO'
+      assigner:
+        $ref: '#/definitions/internal_assignment.AssignmentCollaboratorDTO'
+      assigner_id:
+        example: 723e4567-e89b-12d3-a456-426614174000
+        type: string
+      id:
+        example: 523e4567-e89b-12d3-a456-426614174000
+        type: string
+      task:
+        $ref: '#/definitions/internal_assignment.AssignmentTaskDTO'
+      task_id:
+        example: 823e4567-e89b-12d3-a456-426614174000
+        type: string
+    type: object
+  internal_assignment.AssignmentParticipationCreateDTO:
+    properties:
+      assign_date:
+        example: "2024-12-20T09:00:00Z"
+        type: string
+      assign_end_date:
+        example: "2025-01-15T17:00:00Z"
+        type: string
+    type: object
+  internal_assignment.AssignmentParticipationDTO:
+    properties:
+      activity_id:
+        example: b23e4567-e89b-12d3-a456-426614174000
+        type: string
+      collaborator:
+        $ref: '#/definitions/internal_assignment.AssignmentCollaboratorDTO'
+      collaborator_id:
+        example: a23e4567-e89b-12d3-a456-426614174000
+        type: string
+      id:
+        example: 923e4567-e89b-12d3-a456-426614174000
+        type: string
+    type: object
+  internal_assignment.AssignmentTaskDTO:
+    properties:
+      activity_id:
+        example: 013e4567-e89b-12d3-a456-426614174000
+        type: string
+      id:
+        example: f23e4567-e89b-12d3-a456-426614174000
+        type: string
+      lifecycle_id:
+        example: 113e4567-e89b-12d3-a456-426614174000
+        type: string
+      title:
+        example: Prepare invoice
+        type: string
+    type: object
+  internal_assignment.TaskAssignmentDTO:
+    properties:
+      active:
+        example: true
+        type: boolean
+      assign_date:
+        example: "2025-01-01T10:00:00Z"
+        type: string
+      assign_end_date:
+        example: "2025-01-15T18:00:00Z"
+        type: string
+      assigned_to:
+        $ref: '#/definitions/internal_assignment.AssignmentParticipationDTO'
+      assigned_to_id:
+        example: 623e4567-e89b-12d3-a456-426614174000
+        type: string
+      assigner:
+        $ref: '#/definitions/internal_assignment.AssignmentCollaboratorDTO'
+      assigner_id:
+        example: 723e4567-e89b-12d3-a456-426614174000
+        type: string
+      id:
+        example: 523e4567-e89b-12d3-a456-426614174000
+        type: string
+      task_id:
+        example: 823e4567-e89b-12d3-a456-426614174000
+        type: string
+    type: object
+  internal_auth.AuthCollaboratorRole:
+    enum:
+    - OWNER
+    - MANAGER
+    - OPS
+    type: string
+    x-enum-varnames:
+    - AuthCollaboratorRoleOwner
+    - AuthCollaboratorRoleManager
+    - AuthCollaboratorRoleOps
+  internal_auth.AuthDataDTO:
+    properties:
+      collaborator:
+        $ref: '#/definitions/internal_auth.CollaboratorDataDTO'
+      id:
+        example: 123e4567-e89b-12d3-a456-426614174000
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/internal_auth.AuthRole'
+        example: USER
+      sessionID:
+        example: sess-abc-123
+        type: string
+      username:
+        example: admin
+        type: string
+    type: object
+  internal_auth.AuthRole:
+    enum:
+    - USER
+    - ADMIN
+    - OPS
+    type: string
+    x-enum-varnames:
+    - AuthRoleUser
+    - AuthRoleAdmin
+    - AuthRoleOps
+  internal_auth.AuthTokenResposne:
+    properties:
+      authorization:
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        type: string
+      token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        type: string
+    type: object
+  internal_auth.CollaboratorDataDTO:
+    properties:
+      companyID:
+        example: 323e4567-e89b-12d3-a456-426614174000
+        type: string
+      id:
+        example: 223e4567-e89b-12d3-a456-426614174000
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/internal_auth.AuthCollaboratorRole'
+        example: OWNER
+    type: object
+  internal_auth.LoadCollaboratorContextDTO:
+    properties:
+      collaborator_id:
+        example: 123e4567-e89b-12d3-a456-426614174000
+        type: string
+    required:
+    - collaborator_id
+    type: object
+  internal_auth.SignInDTO:
+    properties:
+      password:
+        example: admin123
+        type: string
+      username:
+        example: admin
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  internal_auth.SignUpDTO:
+    properties:
+      email:
+        example: new_user@example.com
+        type: string
+      name:
+        example: New User
+        type: string
+      password:
+        example: S3cureP@ss!
+        type: string
+      phone:
+        example: +1-202-555-0170
+        type: string
+      username:
+        description: Password is hashed by account service.
+        example: new_user
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - phone
+    - username
+    type: object
+  internal_auth.UpdateEmailDTO:
+    properties:
+      email:
+        example: new_user@example.com
+        type: string
+    required:
+    - email
+    type: object
+  internal_auth.UpdatePasswordDTO:
+    properties:
+      password:
+        type: string
+    required:
+    - password
+    type: object
+  internal_auth.UpdatePhoneDTO:
+    properties:
+      phone:
+        example: +1-202-555-0170
+        type: string
+    required:
+    - phone
+    type: object
+  internal_collaborator.AccountCollaboratorDTO:
+    properties:
+      account_id:
+        example: 123e4567-e89b-12d3-a456-426614174002
+        type: string
+      active:
+        example: true
+        type: boolean
+      company:
+        $ref: '#/definitions/internal_collaborator.CollaboratorCompanyDTO'
+      company_id:
+        example: 123e4567-e89b-12d3-a456-426614174001
+        type: string
+      id:
+        example: 123e4567-e89b-12d3-a456-426614174000
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/internal_collaborator.CollaboratorRoleDTO'
+        example: OWNER
+    type: object
+  internal_collaborator.CollaboratorAccount:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+      username:
+        type: string
+    type: object
+  internal_collaborator.CollaboratorAccountCreateDTO:
+    properties:
+      email:
+        example: owner@example.com
+        type: string
+      name:
+        example: Joe Owner
+        type: string
+      password:
+        example: S3cureP@ss!
+        type: string
+      phone:
+        example: +1-202-555-0199
+        type: string
+      username:
+        example: owner_joe
+        type: string
+    type: object
+  internal_collaborator.CollaboratorAccountDTO:
+    properties:
+      email:
+        example: john.doe@example.com
+        type: string
+      id:
+        example: 223e4567-e89b-12d3-a456-426614174000
+        type: string
+      name:
+        example: John Doe
+        type: string
+      phone:
+        example: +1-202-555-0123
+        type: string
+      username:
+        example: jdoe
+        type: string
+    type: object
+  internal_collaborator.CollaboratorAccountUpdateDTO:
+    properties:
+      name:
+        example: Jane Manager
+        type: string
+    type: object
+  internal_collaborator.CollaboratorCompanyDTO:
+    properties:
+      id:
+        example: 323e4567-e89b-12d3-a456-426614174000
+        type: string
+      title:
+        example: Acme Corp
+        type: string
+    type: object
+  internal_collaborator.CollaboratorCreateDTO:
+    properties:
+      account_id:
+        example: 223e4567-e89b-12d3-a456-426614174000
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/internal_collaborator.ManagedCollaboratorRoleDTO'
+        enum:
+        - MANAGER
+        - OPS
+        example: MANAGER
+    required:
+    - role
+    type: object
+  internal_collaborator.CollaboratorInfoDTO:
+    properties:
+      account_id:
+        example: 123e4567-e89b-12d3-a456-426614174002
+        type: string
+      active:
+        example: true
+        type: boolean
+      company_id:
+        example: 123e4567-e89b-12d3-a456-426614174001
+        type: string
+      id:
+        example: 123e4567-e89b-12d3-a456-426614174000
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/internal_collaborator.CollaboratorRoleDTO'
+        example: OWNER
+    type: object
+  internal_collaborator.CollaboratorRole:
+    enum:
+    - OWNER
+    - MANAGER
+    - OPS
+    type: string
+    x-enum-varnames:
+    - CollaboratorRoleOwner
+    - CollaboratorRoleManager
+    - CollaboratorRoleOps
+  internal_collaborator.CollaboratorRoleDTO:
+    enum:
+    - OWNER
+    - MANAGER
+    - OPS
+    type: string
+    x-enum-varnames:
+    - CollaboratorRoleDTOOwner
+    - CollaboratorRoleDTOManager
+    - CollaboratorRoleDTOOps
+  internal_collaborator.CollaboratorUpdateDTO:
+    properties:
+      account:
+        $ref: '#/definitions/internal_collaborator.CollaboratorAccountUpdateDTO'
+      role:
+        allOf:
+        - $ref: '#/definitions/internal_collaborator.ManagedCollaboratorRoleDTO'
+        enum:
+        - MANAGER
+        - OPS
+        example: MANAGER
+    required:
+    - account
+    - role
+    type: object
+  internal_collaborator.CollaboratorWithAccountCreateDTO:
+    properties:
+      account:
+        $ref: '#/definitions/internal_collaborator.CollaboratorAccountCreateDTO'
+      role:
+        allOf:
+        - $ref: '#/definitions/internal_collaborator.ManagedCollaboratorRoleDTO'
+        enum:
+        - MANAGER
+        - OPS
+        example: MANAGER
+    required:
+    - account
+    - role
+    type: object
+  internal_collaborator.CompanyCollaborator:
+    properties:
+      account:
+        $ref: '#/definitions/internal_collaborator.CollaboratorAccount'
+      account_id:
+        type: string
+      active:
+        type: boolean
+      company_id:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: string
+      role:
+        $ref: '#/definitions/internal_collaborator.CollaboratorRole'
+      updated_at:
+        type: string
+    type: object
+  internal_collaborator.CompanyCollaboratorDTO:
+    properties:
+      account:
+        $ref: '#/definitions/internal_collaborator.CollaboratorAccountDTO'
+      account_id:
+        example: 123e4567-e89b-12d3-a456-426614174002
+        type: string
+      active:
+        example: true
+        type: boolean
+      company_id:
+        example: 123e4567-e89b-12d3-a456-426614174001
+        type: string
+      id:
+        example: 123e4567-e89b-12d3-a456-426614174000
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/internal_collaborator.CollaboratorRoleDTO'
+        example: OWNER
+    type: object
+  internal_collaborator.ManagedCollaboratorRoleDTO:
+    enum:
+    - MANAGER
+    - OPS
+    type: string
+    x-enum-varnames:
+    - ManagedCollaboratorRoleDTOManager
+    - ManagedCollaboratorRoleDTOOps
+  internal_company.CompanyCreateDTO:
+    properties:
+      owner:
+        $ref: '#/definitions/internal_company.CompanyOwnerCreateDTO'
+      title:
+        example: Acme Corp
+        type: string
+    required:
+    - owner
+    - title
+    type: object
+  internal_company.CompanyDTO:
+    properties:
+      id:
+        example: 123e4567-e89b-12d3-a456-426614174000
+        type: string
+      title:
+        example: Acme Corp
+        type: string
+    type: object
+  internal_company.CompanyOwnerAccountCreateDTO:
+    properties:
+      email:
+        example: owner@example.com
+        type: string
+      name:
+        example: Joe Owner
+        type: string
+      password:
+        example: S3cureP@ss!
+        type: string
+      phone:
+        example: +1-202-555-0123
+        type: string
+      username:
+        example: owner_joe
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - phone
+    - username
+    type: object
+  internal_company.CompanyOwnerCreateDTO:
+    properties:
+      account:
+        allOf:
+        - $ref: '#/definitions/internal_company.CompanyOwnerAccountCreateDTO'
+        description: |-
+          Account contains credentials and profile details for the owner.
+          The password is hashed by the account service inside a DB transaction.
+    required:
+    - account
+    type: object
+  internal_company.CompanyUpdateDTO:
+    properties:
+      title:
+        example: Acme Corp v2
+        type: string
+    required:
+    - title
+    type: object
+  internal_participation.ActivityParticipationDTO:
+    properties:
+      activity_id:
+        type: string
+      collaborator:
+        $ref: '#/definitions/internal_participation.ParticipationCollaborator'
+      collaborator_id:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  internal_participation.CollaboratorParticipationDTO:
+    properties:
+      activity:
+        $ref: '#/definitions/internal_participation.ParticipationActivity'
+      activity_id:
+        type: string
+      collaborator_id:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  internal_participation.ParticipationAccount:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+      username:
+        type: string
+    type: object
+  internal_participation.ParticipationActivity:
+    properties:
+      id:
+        type: string
+      title:
+        type: string
+    type: object
+  internal_participation.ParticipationCollaborator:
+    properties:
+      account:
+        $ref: '#/definitions/internal_participation.ParticipationAccount'
+      account_id:
+        type: string
+      id:
+        type: string
+      title:
+        type: string
+    type: object
+  internal_participation.ParticipationCreateDTO:
+    properties:
+      collaborator_id:
+        type: string
+    type: object
+  internal_participation.ParticipationInfoDTO:
+    properties:
+      activity_id:
+        example: 513e4567-e89b-12d3-a456-426614174000
+        type: string
+      collaborator_id:
+        example: 413e4567-e89b-12d3-a456-426614174000
+        type: string
+      id:
+        example: 313e4567-e89b-12d3-a456-426614174000
+        type: string
+    type: object
+  internal_rating.ActivityRatingCreateDTO:
+    properties:
+      activity_id:
+        example: f13e4567-e89b-12d3-a456-426614174000
+        type: string
+      comment:
+        type: string
+      rate:
+        example: 5
+        type: number
+      rate_type:
+        type: string
+    type: object
+  internal_rating.RatingCollaboratorDTO:
+    properties:
+      account_id:
+        example: 213e4567-e89b-12d3-a456-426614174000
+        type: string
+      active:
+        example: true
+        type: boolean
+      company_id:
+        example: 113e4567-e89b-12d3-a456-426614174000
+        type: string
+      id:
+        example: 013e4567-e89b-12d3-a456-426614174000
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/go-tasks_internal_collaborator.CollaboratorRole'
+        example: OWNER
+    type: object
+  internal_rating.RatingCreateDTO:
+    properties:
+      comment:
+        type: string
+      rate:
+        example: 5
+        type: number
+      rate_type:
+        type: string
+    type: object
+  internal_rating.RatingDTO:
+    properties:
+      collaborator:
+        $ref: '#/definitions/internal_rating.RatingCollaboratorDTO'
+      collaborator_id:
+        example: c13e4567-e89b-12d3-a456-426614174000
+        type: string
+      id:
+        example: a13e4567-e89b-12d3-a456-426614174000
+        type: string
+      participation:
+        $ref: '#/definitions/internal_rating.RatingParticipationDTO'
+      participation_id:
+        example: b13e4567-e89b-12d3-a456-426614174000
+        type: string
+      rate:
+        example: 4.5
+        type: number
+    type: object
+  internal_rating.RatingParticipationDTO:
+    properties:
+      activity_id:
+        example: f13e4567-e89b-12d3-a456-426614174000
+        type: string
+      collaborator_id:
+        example: e13e4567-e89b-12d3-a456-426614174000
+        type: string
+      id:
+        example: d13e4567-e89b-12d3-a456-426614174000
+        type: string
+    type: object
+  internal_task.ActivityTaskDTO:
+    properties:
+      activity_id:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: string
+      lifecycle:
+        $ref: '#/definitions/internal_task.TaskLifecycleDTO'
+      lifecycle_id:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  internal_task.TaskAccountDTO:
+    properties:
+      email:
+        example: jdoe@example.com
+        type: string
+      id:
+        example: b13e4567-e89b-12d3-a456-426614174100
+        type: string
+      name:
+        example: Jane Doe
+        type: string
+      phone:
+        example: +1-202-555-0188
+        type: string
+      role:
+        example: ADMIN
+        type: string
+      username:
+        example: jdoe
+        type: string
+    type: object
+  internal_task.TaskActivityDTO:
+    properties:
+      active:
+        example: true
+        type: boolean
+      company:
+        $ref: '#/definitions/internal_task.TaskCompanyDTO'
+      company_id:
+        example: 413e4567-e89b-12d3-a456-426614174102
+        type: string
+      created_by:
+        $ref: '#/definitions/internal_task.TaskCollaboratorDTO'
+      created_by_id:
+        example: 413e4567-e89b-12d3-a456-426614174104
+        type: string
+      id:
+        example: 413e4567-e89b-12d3-a456-426614174100
+        type: string
+      lifecycle:
+        $ref: '#/definitions/internal_task.TaskLifecycleDTO'
+      lifecycle_id:
+        example: 413e4567-e89b-12d3-a456-426614174101
+        type: string
+      owner:
+        $ref: '#/definitions/internal_task.TaskCollaboratorDTO'
+      owner_id:
+        example: 413e4567-e89b-12d3-a456-426614174103
+        type: string
+      title:
+        example: Activity Alpha
+        type: string
+    type: object
+  internal_task.TaskCollaboratorDTO:
+    properties:
+      account:
+        $ref: '#/definitions/internal_task.TaskAccountDTO'
+      account_id:
+        example: 913e4567-e89b-12d3-a456-426614174100
+        type: string
+      company_id:
+        example: a13e4567-e89b-12d3-a456-426614174100
+        type: string
+      id:
+        example: 813e4567-e89b-12d3-a456-426614174100
+        type: string
+      role:
+        example: MANAGER
+        type: string
+    type: object
+  internal_task.TaskCompanyDTO:
+    properties:
+      id:
+        example: 513e4567-e89b-12d3-a456-426614174100
+        type: string
+      title:
+        example: Acme Corp
+        type: string
+    type: object
+  internal_task.TaskCreateDTO:
+    properties:
+      lifecycle:
+        $ref: '#/definitions/internal_task.TaskLifecycleCreateDTO'
+      title:
+        example: Prepare monthly report
+        type: string
+    type: object
+  internal_task.TaskDTO:
+    properties:
+      activity:
+        $ref: '#/definitions/internal_task.TaskActivityDTO'
+      activity_id:
+        example: 313e4567-e89b-12d3-a456-426614174101
+        type: string
+      id:
+        example: 313e4567-e89b-12d3-a456-426614174100
+        type: string
+      lifecycle:
+        $ref: '#/definitions/internal_task.TaskLifecycleDTO'
+      lifecycle_id:
+        example: 313e4567-e89b-12d3-a456-426614174102
+        type: string
+      title:
+        example: Prepare monthly report
+        type: string
+    type: object
+  internal_task.TaskLifecycleCreateDTO:
+    properties:
+      due_date:
+        example: "2025-01-10T18:00:00Z"
+        type: string
+      init_date:
+        example: "2025-01-01T08:00:00Z"
+        type: string
+    type: object
+  internal_task.TaskLifecycleDTO:
+    properties:
+      due_date:
+        example: "2025-01-10T18:00:00Z"
+        type: string
+      id:
+        example: 613e4567-e89b-12d3-a456-426614174100
+        type: string
+      init_date:
+        example: "2025-01-01T08:00:00Z"
+        type: string
+      status:
+        example: OPEN
+        type: string
+      updates:
+        items:
+          $ref: '#/definitions/internal_task.TaskStatusUpdateDTO'
+        type: array
+    type: object
+  internal_task.TaskLifecycleUpdateDTO:
+    properties:
+      due_date:
+        example: "2025-01-10T18:00:00Z"
+        type: string
+      init_date:
+        example: "2025-01-01T08:00:00Z"
+        type: string
+    type: object
+  internal_task.TaskStatusUpdateDTO:
+    properties:
+      id:
+        example: 713e4567-e89b-12d3-a456-426614174100
+        type: string
+      lifecycle_id:
+        example: 613e4567-e89b-12d3-a456-426614174100
+        type: string
+      status_after:
+        example: IN_PROGRESS
+        type: string
+      status_before:
+        example: OPEN
+        type: string
+      update_date:
+        example: "2025-01-05T12:00:00Z"
+        type: string
+    type: object
+  internal_task.TaskUpdateDTO:
+    properties:
+      lifecycle:
+        $ref: '#/definitions/internal_task.TaskLifecycleUpdateDTO'
+      title:
+        example: Prepare monthly report (updated)
+        type: string
+    type: object
+  internal_task.TaskUpdateStatusDTO:
+    properties:
+      status:
+        allOf:
+        - $ref: '#/definitions/go-tasks_internal_lifecycle.LifecycleStatusDTO'
+        example: IN_PROGRESS
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: |-
+    GoTasks is a robust API for managing company tasks and collaborations.
+    It provides comprehensive features for:
+    - **Company and Collaborator Management**: Onboard companies and manage staff with hierarchical roles.
+    - **Activity and Task Lifecycle Tracking**: Create and monitor activities and tasks through various stages.
+    - **Role-Based Access Control (RBAC)**: Secure endpoints with granular permissions for Admins, Ops, Owners, and Managers.
+    - **Performance Ratings and Assignments**: Assign tasks to collaborators and rate their performance.
+    - **Secure Authentication**: JWT-based authentication for secure access.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: GoTasks API
+  version: "1.0"
+paths:
+  /admin-or-ops/company/:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all companies with pagination
+      parameters:
+      - default: 0
+        description: Number of items to skip
+        in: query
+        name: skip
+        type: integer
+      - default: 20
+        description: Maximum number of items to return
+        in: query
+        name: limit
+        type: integer
+      - default: id
+        description: Field to sort by
+        enum:
+        - id
+        - title
+        in: query
+        name: sortBy
+        type: string
+      - default: ASC
+        description: Sort order
+        enum:
+        - ASC
+        - DESC
+        in: query
+        name: sortOrder
+        type: string
+      - description: Filter expression
+        in: query
+        name: filter
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_company_CompanyDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all companies
+      tags:
+      - Company | Admin or Ops
+    post:
+      consumes:
+      - application/json
+      description: Atomically creates a company, its owner account (hashed password
+        via account service), and links the owner as a collaborator.
+      parameters:
+      - description: Company data
+        in: body
+        name: company
+        required: true
+        schema:
+          $ref: '#/definitions/internal_company.CompanyCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_company_CompanyDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new company
+      tags:
+      - Company | Admin or Ops
+  /admin-or-ops/company/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a company by its unique ID
+      parameters:
+      - description: Company ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a company
+      tags:
+      - Company | Admin or Ops
+    get:
+      consumes:
+      - application/json
+      description: Get a company by its unique ID
+      parameters:
+      - description: Company ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_company_CompanyDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get company by ID
+      tags:
+      - Company | Admin or Ops
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing company
+      parameters:
+      - description: Company ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Company data
+        in: body
+        name: company
+        required: true
+        schema:
+          $ref: '#/definitions/internal_company.CompanyUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_company_CompanyDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a company
+      tags:
+      - Company | Admin or Ops
+  /auth/sign-in:
+    post:
+      consumes:
+      - application/json
+      description: Sign in a user and return a JWT token
+      parameters:
+      - description: User credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/internal_auth.SignInDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_auth_AuthTokenResposne'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      summary: Sign in a user
+      tags:
+      - Auth | Public
+  /auth/sign-up:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new account with a securely hashed password via account
+        service. Returns 204 with no body.
+      parameters:
+      - description: User credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/internal_auth.SignUpDTO'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      summary: Sign up a new user
+      tags:
+      - Auth | Public
+  /company/activity/own/:
+    get:
+      consumes:
+      - application/json
+      description: List your activities with pagination
+      parameters:
+      - default: 0
+        description: Number of items to skip
+        in: query
+        name: skip
+        type: integer
+      - default: 20
+        description: Maximum number of items to return
+        in: query
+        name: limit
+        type: integer
+      - default: id
+        description: Field to sort by
+        enum:
+        - id
+        - title
+        in: query
+        name: sortBy
+        type: string
+      - default: ASC
+        description: Sort order
+        enum:
+        - ASC
+        - DESC
+        in: query
+        name: sortOrder
+        type: string
+      - description: Filter expression
+        in: query
+        name: filter
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_activity_OwnActivityDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: List activities
+      tags:
+      - Activity | Company
+    post:
+      consumes:
+      - application/json
+      description: Create a new activity
+      parameters:
+      - description: Activity create payload
+        in: body
+        name: activity
+        required: true
+        schema:
+          $ref: '#/definitions/internal_activity.OwnActivityCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_activity_OwnActivityDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create activity
+      tags:
+      - Activity | Company
+  /company/activity/own/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete activity by ID
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete activity
+      tags:
+      - Activity | Company
+    get:
+      consumes:
+      - application/json
+      description: Get a single activity owned by current user
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_activity_OwnActivityDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get owned activity by ID
+      tags:
+      - Activity | Company
+    put:
+      consumes:
+      - application/json
+      description: Update an existing activity
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Activity update payload
+        in: body
+        name: activity
+        required: true
+        schema:
+          $ref: '#/definitions/internal_activity.ActivityUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_activity_OwnActivityDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update activity
+      tags:
+      - Activity | Company
+  /company/activity/own/{id}/status:
+    patch:
+      consumes:
+      - application/json
+      description: Update status of an activity
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Status update payload
+        in: body
+        name: status
+        required: true
+        schema:
+          $ref: '#/definitions/internal_activity.ActivityUpdateStatusDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update activity status
+      tags:
+      - Activity | Company
+  /company/activity/own/tasks/{activity_id}/:
+    get:
+      consumes:
+      - application/json
+      description: List tasks by activity ID owned by the current collaborator with
+        pagination
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: activity_id
+        required: true
+        type: string
+      - default: 0
+        description: Number of items to skip
+        in: query
+        name: skip
+        type: integer
+      - default: 20
+        description: Maximum number of items to return
+        in: query
+        name: limit
+        type: integer
+      - default: id
+        description: Field to sort by
+        enum:
+        - id
+        - title
+        in: query
+        name: sortBy
+        type: string
+      - default: ASC
+        description: Sort order
+        enum:
+        - ASC
+        - DESC
+        in: query
+        name: sortOrder
+        type: string
+      - description: Filter expression
+        in: query
+        name: filter
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_task_ActivityTaskDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: List own tasks by activity
+      tags:
+      - Task | Company Own Activity
+    post:
+      consumes:
+      - application/json
+      description: Create a new task within an activity owned by the current collaborator
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: activity_id
+        required: true
+        type: string
+      - description: Task create payload
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/internal_task.TaskCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_task_TaskDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create own task
+      tags:
+      - Task | Company Own Activity
+  /company/activity/own/tasks/{activity_id}/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a task by ID within an activity owned by the current collaborator
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: activity_id
+        required: true
+        type: string
+      - description: Task ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete own task
+      tags:
+      - Task | Company Own Activity
+    get:
+      consumes:
+      - application/json
+      description: Get a single task by ID within an activity owned by the current
+        collaborator
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: activity_id
+        required: true
+        type: string
+      - description: Task ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_task_ActivityTaskDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get own task
+      tags:
+      - Task | Company Own Activity
+    put:
+      consumes:
+      - application/json
+      description: Update a task by ID within an activity owned by the current collaborator
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: activity_id
+        required: true
+        type: string
+      - description: Task ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Task update payload
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/internal_task.TaskUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_task_TaskDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update own task
+      tags:
+      - Task | Company Own Activity
+  /company/activity/own/tasks/{activity_id}/{id}/status:
+    patch:
+      consumes:
+      - application/json
+      description: Update the status of a task within an activity owned by the current
+        collaborator
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: activity_id
+        required: true
+        type: string
+      - description: Task ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Status update payload
+        in: body
+        name: status
+        required: true
+        schema:
+          $ref: '#/definitions/internal_task.TaskUpdateStatusDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update own task status
+      tags:
+      - Task | Company Own Activity
+  /company/activity/tasks/{activity_id}/{id}/perform:
+    patch:
+      consumes:
+      - application/json
+      description: Perform a task by updating its status for current collaborator
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: activity_id
+        required: true
+        type: string
+      - description: Task ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Status update payload
+        in: body
+        name: status
+        required: true
+        schema:
+          $ref: '#/definitions/internal_task.TaskUpdateStatusDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Perform task
+      tags:
+      - Task | Company Manager or Owner
+  /company/collaborator/subordinates/:
+    get:
+      consumes:
+      - application/json
+      description: List sub-collaborators filtered by allowed roles in my company
+      parameters:
+      - default: 0
+        description: Number of items to skip
+        in: query
+        name: skip
+        type: integer
+      - default: 20
+        description: Maximum number of items to return
+        in: query
+        name: limit
+        type: integer
+      - default: id
+        description: Field to sort by
+        enum:
+        - id
+        - role
+        in: query
+        name: sortBy
+        type: string
+      - default: ASC
+        description: Sort order
+        enum:
+        - ASC
+        - DESC
+        in: query
+        name: sortOrder
+        type: string
+      - description: Filter expression
+        in: query
+        name: filter
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_collaborator_CompanyCollaborator'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: List sub-collaborators
+      tags:
+      - Collaborator | Company
+    post:
+      consumes:
+      - application/json
+      description: Create a new collaborator with role validation
+      parameters:
+      - description: Collaborator create payload
+        in: body
+        name: collaborator
+        required: true
+        schema:
+          $ref: '#/definitions/internal_collaborator.CollaboratorCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_collaborator_CollaboratorInfoDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create sub-collaborator
+      tags:
+      - Collaborator | Company
+  /company/collaborator/subordinates/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a collaborator with role validation
+      parameters:
+      - description: Collaborator ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete sub-collaborator
+      tags:
+      - Collaborator | Company
+    get:
+      consumes:
+      - application/json
+      description: Get a sub-collaborator and validate role access
+      parameters:
+      - description: Collaborator ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_collaborator_CompanyCollaboratorDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get sub-collaborator by ID
+      tags:
+      - Collaborator | Company
+    put:
+      consumes:
+      - application/json
+      description: Update an existing collaborator with role validation
+      parameters:
+      - description: Collaborator ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Collaborator update payload
+        in: body
+        name: collaborator
+        required: true
+        schema:
+          $ref: '#/definitions/internal_collaborator.CollaboratorUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_collaborator_CompanyCollaboratorDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update sub-collaborator
+      tags:
+      - Collaborator | Company
+  /company/collaborator/subordinates/with-account:
+    post:
+      consumes:
+      - application/json
+      description: Create a new sub-collaborator and account within the company
+      parameters:
+      - description: Collaborator with account create payload
+        in: body
+        name: collaborator
+        required: true
+        schema:
+          $ref: '#/definitions/internal_collaborator.CollaboratorWithAccountCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_collaborator_CompanyCollaboratorDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create sub-collaborator with new account
+      tags:
+      - Collaborator | Company
+  /company/manager-owner/activity/:
+    get:
+      consumes:
+      - application/json
+      description: List activities in your company with pagination
+      parameters:
+      - default: 0
+        description: Number of items to skip
+        in: query
+        name: skip
+        type: integer
+      - default: 20
+        description: Maximum number of items to return
+        in: query
+        name: limit
+        type: integer
+      - default: id
+        description: Field to sort by
+        enum:
+        - id
+        - title
+        in: query
+        name: sortBy
+        type: string
+      - default: ASC
+        description: Sort order
+        enum:
+        - ASC
+        - DESC
+        in: query
+        name: sortOrder
+        type: string
+      - description: Filter expression
+        in: query
+        name: filter
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_activity_CompanyActivityDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: List activities
+      tags:
+      - Activity | Company Manager or Owner
+    post:
+      consumes:
+      - application/json
+      description: Create a new activity
+      parameters:
+      - description: Activity create payload
+        in: body
+        name: activity
+        required: true
+        schema:
+          $ref: '#/definitions/internal_activity.ActivityCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_activity_CompanyActivityDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create activity
+      tags:
+      - Activity | Company Manager or Owner
+  /company/manager-owner/activity/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete activity by ID
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete activity
+      tags:
+      - Activity | Company Manager or Owner
+    get:
+      consumes:
+      - application/json
+      description: Get a single activity by ID
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_activity_CompanyActivityDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get activity by ID
+      tags:
+      - Activity | Company Manager or Owner
+    put:
+      consumes:
+      - application/json
+      description: Update an existing activity
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Activity update payload
+        in: body
+        name: activity
+        required: true
+        schema:
+          $ref: '#/definitions/internal_activity.ActivityUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_activity_CompanyActivityDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update activity
+      tags:
+      - Activity | Company Manager or Owner
+  /company/manager-owner/activity/{id}/status:
+    patch:
+      consumes:
+      - application/json
+      description: Update status of an activity
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Status update payload
+        in: body
+        name: status
+        required: true
+        schema:
+          $ref: '#/definitions/internal_activity.ActivityUpdateStatusDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update activity status
+      tags:
+      - Activity | Company Manager or Owner
+  /company/manager-owner/activity/participations/{activity_id}/:
+    get:
+      consumes:
+      - application/json
+      description: List participations for a given activity ID
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: activity_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_participation_ActivityParticipationDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: List participations by activity
+      tags:
+      - Participation | Company Manager or Owner
+    post:
+      consumes:
+      - application/json
+      description: Create a participation for an activity
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: activity_id
+        required: true
+        type: string
+      - description: Participation create payload
+        in: body
+        name: participation
+        required: true
+        schema:
+          $ref: '#/definitions/internal_participation.ParticipationCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_participation_ParticipationInfoDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create participation
+      tags:
+      - Participation | Company Manager or Owner
+  /company/manager-owner/activity/tasks/{activity_id}/:
+    get:
+      consumes:
+      - application/json
+      description: List tasks by activity ID with pagination
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: activity_id
+        required: true
+        type: string
+      - default: 0
+        description: Number of items to skip
+        in: query
+        name: skip
+        type: integer
+      - default: 20
+        description: Maximum number of items to return
+        in: query
+        name: limit
+        type: integer
+      - default: id
+        description: Field to sort by
+        enum:
+        - id
+        - title
+        in: query
+        name: sortBy
+        type: string
+      - default: ASC
+        description: Sort order
+        enum:
+        - ASC
+        - DESC
+        in: query
+        name: sortOrder
+        type: string
+      - description: Filter expression
+        in: query
+        name: filter
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_task_ActivityTaskDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: List tasks by activity
+      tags:
+      - Task | Company Manager or Owner
+    post:
+      consumes:
+      - application/json
+      description: Create a new task within an activity
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: activity_id
+        required: true
+        type: string
+      - description: Task create payload
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/internal_task.TaskCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_task_TaskDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create task
+      tags:
+      - Task | Company Manager or Owner
+  /company/manager-owner/activity/tasks/{activity_id}/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a task by ID within an activity
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: activity_id
+        required: true
+        type: string
+      - description: Task ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete task
+      tags:
+      - Task | Company Manager or Owner
+    get:
+      consumes:
+      - application/json
+      description: Get a single task by ID within an activity
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: activity_id
+        required: true
+        type: string
+      - description: Task ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_task_ActivityTaskDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get task
+      tags:
+      - Task | Company Manager or Owner
+    put:
+      consumes:
+      - application/json
+      description: Update a task by ID within an activity
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: activity_id
+        required: true
+        type: string
+      - description: Task ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Task update payload
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/internal_task.TaskUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_task_TaskDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update task
+      tags:
+      - Task | Company Manager or Owner
+  /company/manager-owner/activity/tasks/{activity_id}/{id}/status:
+    patch:
+      consumes:
+      - application/json
+      description: Update the status of a task within an activity
+      parameters:
+      - description: Activity ID
+        format: uuid
+        in: path
+        name: activity_id
+        required: true
+        type: string
+      - description: Task ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Status update payload
+        in: body
+        name: status
+        required: true
+        schema:
+          $ref: '#/definitions/internal_task.TaskUpdateStatusDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update task status
+      tags:
+      - Task | Company Manager or Owner
+  /company/manager-owner/collaborator/ratings/{collaborator_id}/:
+    post:
+      consumes:
+      - application/json
+      description: Create a new rating or update existing rating for a collaborator
+        by the authenticated company manager or owner. If a rating already exists
+        from the same collaborator for this activity participation, it will be replaced.
+      parameters:
+      - description: Collaborator ID
+        format: uuid
+        in: path
+        name: collaborator_id
+        required: true
+        type: string
+      - description: Rating create payload
+        in: body
+        name: rating
+        required: true
+        schema:
+          $ref: '#/definitions/internal_rating.ActivityRatingCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_rating_RatingDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create or update rating for collaborator
+      tags:
+      - Rating | Company Manager or Owner
+  /company/manager-owner/participation/rating/{participation_id}/:
+    post:
+      consumes:
+      - application/json
+      description: Create a new rating or update existing rating for a participation
+        by the authenticated collaborator. If a rating already exists from the same
+        collaborator for this participation, it will be replaced.
+      parameters:
+      - description: Participation ID
+        format: uuid
+        in: path
+        name: participation_id
+        required: true
+        type: string
+      - description: Rating create payload
+        in: body
+        name: rating
+        required: true
+        schema:
+          $ref: '#/definitions/internal_rating.RatingCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_rating_RatingDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create or update rating
+      tags:
+      - Rating | Company Manager or Owner
+  /company/manager-owner/task/assignments/{task_id}:
+    post:
+      consumes:
+      - application/json
+      description: 'Create a new assignment for a task using a direct participation
+        ID. This method requires you to provide the participation ID directly in the
+        request body. **Business Rule**: If there are existing active assignments
+        for this task, they will be automatically deactivated to ensure only one active
+        assignment per task. The operation is performed within a database transaction
+        to ensure consistency.'
+      parameters:
+      - description: Task ID
+        format: uuid
+        in: path
+        name: task_id
+        required: true
+        type: string
+      - description: Assignment create payload with participation ID
+        in: body
+        name: assignment
+        required: true
+        schema:
+          $ref: '#/definitions/internal_assignment.AssignmentCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Assignment created successfully
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_assignment_AssignmentDTO'
+        "400":
+          description: Invalid request parameters or JSON payload
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Authentication required
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal server error or database transaction failed
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create assignment (direct method)
+      tags:
+      - Assignment | Company Manager or Owner
+  /company/manager-owner/task/assignments/{task_id}/:
+    get:
+      consumes:
+      - application/json
+      description: List all assignments (active and inactive) for a given task ID
+        with pagination support. Returns assignment history including deactivated
+        assignments to provide full audit trail.
+      parameters:
+      - description: Task ID
+        format: uuid
+        in: path
+        name: task_id
+        required: true
+        type: string
+      - default: 0
+        description: Number of items to skip
+        in: query
+        name: skip
+        type: integer
+      - default: 20
+        description: Maximum number of items to return
+        in: query
+        name: limit
+        type: integer
+      - default: id
+        description: Field to sort by
+        enum:
+        - id
+        - assign_date
+        in: query
+        name: sortBy
+        type: string
+      - default: ASC
+        description: Sort order
+        enum:
+        - ASC
+        - DESC
+        in: query
+        name: sortOrder
+        type: string
+      - description: Filter expression
+        in: query
+        name: filter
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of assignments with pagination metadata
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_assignment_TaskAssignmentDTO'
+        "400":
+          description: Invalid request parameters
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Authentication required
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: List assignments by task
+      tags:
+      - Assignment | Company Manager or Owner
+  /company/manager-owner/task/assignments/{task_id}/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 'Permanently delete an assignment by ID. This physically removes
+        the assignment from the database. **Warning**: This action cannot be undone.
+        Consider using deactivate instead to maintain audit trail.'
+      parameters:
+      - description: Task ID
+        format: uuid
+        in: path
+        name: task_id
+        required: true
+        type: string
+      - description: Assignment ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Assignment deleted successfully
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+        "400":
+          description: Invalid request parameters
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Authentication required
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Assignment not found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete assignment
+      tags:
+      - Assignment | Company Manager or Owner
+    get:
+      consumes:
+      - application/json
+      description: Get a specific assignment by ID within a task, including full details
+        of assigned collaborator, assigner, and task information. Returns complete
+        assignment details with nested objects.
+      parameters:
+      - description: Task ID
+        format: uuid
+        in: path
+        name: task_id
+        required: true
+        type: string
+      - description: Assignment ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Assignment details with full nested information
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_assignment_AssignmentDTO'
+        "400":
+          description: Invalid request parameters
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Authentication required
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Assignment not found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get assignment by ID
+      tags:
+      - Assignment | Company Manager or Owner
+  /company/manager-owner/task/assignments/{task_id}/{id}/deactivate:
+    patch:
+      consumes:
+      - application/json
+      description: Manually deactivate an assignment by setting its active status
+        to false. The assignment remains in the database but is no longer considered
+        active. This is the recommended way to end an assignment while maintaining
+        audit trail.
+      parameters:
+      - description: Task ID
+        format: uuid
+        in: path
+        name: task_id
+        required: true
+        type: string
+      - description: Assignment ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Assignment deactivated successfully
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+        "400":
+          description: Invalid request parameters
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Authentication required
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Assignment not found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Deactivate assignment
+      tags:
+      - Assignment | Company Manager or Owner
+  /company/manager-owner/task/assignments/{task_id}/collaborator/{collaborator_id}:
+    post:
+      consumes:
+      - application/json
+      description: 'Create a new assignment for a task using collaborator ID and activity
+        ID. The system will automatically find an existing participation or create
+        a new one for the collaborator+activity combination. This is the most convenient
+        method when you have collaborator and activity IDs. **Business Rule**: If
+        there are existing active assignments for this task, they will be automatically
+        deactivated to ensure only one active assignment per task. The operation is
+        performed within a database transaction to ensure consistency.'
+      parameters:
+      - description: Task ID
+        format: uuid
+        in: path
+        name: task_id
+        required: true
+        type: string
+      - description: Collaborator ID (person being assigned)
+        format: uuid
+        in: path
+        name: collaborator_id
+        required: true
+        type: string
+      - description: Assignment create payload with activity ID
+        in: body
+        name: assignment
+        required: true
+        schema:
+          $ref: '#/definitions/internal_assignment.AssignmentCollaboratorCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Assignment created successfully (participation auto-created
+            if needed)
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_assignment_AssignmentDTO'
+        "400":
+          description: Invalid request parameters or JSON payload
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Authentication required
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Collaborator or activity not found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal server error or database transaction failed
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create assignment for collaborator
+      tags:
+      - Assignment | Company Manager or Owner
+  /company/manager-owner/task/assignments/{task_id}/participation/{participation_id}:
+    post:
+      consumes:
+      - application/json
+      description: 'Create a new assignment for a task using participation ID from
+        the URL path. This method provides a cleaner API by taking the participation
+        ID from the URL rather than the request body. **Business Rule**: If there
+        are existing active assignments for this task, they will be automatically
+        deactivated to ensure only one active assignment per task. The operation is
+        performed within a database transaction to ensure consistency.'
+      parameters:
+      - description: Task ID
+        format: uuid
+        in: path
+        name: task_id
+        required: true
+        type: string
+      - description: Participation ID (collaborator + activity relationship)
+        format: uuid
+        in: path
+        name: participation_id
+        required: true
+        type: string
+      - description: Assignment create payload (no participation ID needed)
+        in: body
+        name: assignment
+        required: true
+        schema:
+          $ref: '#/definitions/internal_assignment.AssignmentParticipationCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Assignment created successfully
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_assignment_AssignmentDTO'
+        "400":
+          description: Invalid request parameters or JSON payload
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Authentication required
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Participation not found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal server error or database transaction failed
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create assignment for participation
+      tags:
+      - Assignment | Company Manager or Owner
+  /company/owner/collaborator/:
+    get:
+      consumes:
+      - application/json
+      description: List collaborators in the authenticated user's company with pagination
+      parameters:
+      - default: 0
+        description: Number of items to skip
+        in: query
+        name: skip
+        type: integer
+      - default: 20
+        description: Maximum number of items to return
+        in: query
+        name: limit
+        type: integer
+      - default: id
+        description: Field to sort by
+        enum:
+        - id
+        - role
+        in: query
+        name: sortBy
+        type: string
+      - default: ASC
+        description: Sort order
+        enum:
+        - ASC
+        - DESC
+        in: query
+        name: sortOrder
+        type: string
+      - description: Filter expression
+        in: query
+        name: filter
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_collaborator_CompanyCollaboratorDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: List collaborators of my company
+      tags:
+      - Collaborator | Company Owner
+    post:
+      consumes:
+      - application/json
+      description: Create a new collaborator linked to an existing account
+      parameters:
+      - description: Collaborator create payload
+        in: body
+        name: collaborator
+        required: true
+        schema:
+          $ref: '#/definitions/internal_collaborator.CollaboratorCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_collaborator_CollaboratorInfoDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create collaborator
+      tags:
+      - Collaborator | Company Owner
+  /company/owner/collaborator/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a company collaborator by ID
+      parameters:
+      - description: Collaborator ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete collaborator
+      tags:
+      - Collaborator | Company Owner
+    get:
+      consumes:
+      - application/json
+      description: Get a company collaborator by ID
+      parameters:
+      - description: Collaborator ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_collaborator_CompanyCollaboratorDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get collaborator by ID
+      tags:
+      - Collaborator | Company Owner
+    put:
+      consumes:
+      - application/json
+      description: Update a company collaborator by ID
+      parameters:
+      - description: Collaborator ID
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Collaborator update payload
+        in: body
+        name: collaborator
+        required: true
+        schema:
+          $ref: '#/definitions/internal_collaborator.CollaboratorUpdateDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_collaborator_CompanyCollaboratorDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update collaborator
+      tags:
+      - Collaborator | Company Owner
+  /company/owner/collaborator/with-account:
+    post:
+      consumes:
+      - application/json
+      description: Create a new collaborator and account within the company
+      parameters:
+      - description: Collaborator with account create payload
+        in: body
+        name: collaborator
+        required: true
+        schema:
+          $ref: '#/definitions/internal_collaborator.CollaboratorWithAccountCreateDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_collaborator_CompanyCollaboratorDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create collaborator with new account
+      tags:
+      - Collaborator | Company Owner
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: Check if the service is up and running
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+      summary: Health check
+      tags:
+      - Health
+  /protected/auth/collaborator:
+    post:
+      consumes:
+      - application/json
+      description: Load the context of a collaborator with the provided ID
+      parameters:
+      - description: Collaborator ID
+        in: body
+        name: collaborator_id
+        required: true
+        schema:
+          $ref: '#/definitions/internal_auth.LoadCollaboratorContextDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_auth_AuthTokenResposne'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Load collaborator context
+      tags:
+      - Auth | Protected
+  /protected/auth/email:
+    put:
+      consumes:
+      - application/json
+      description: Update the email of a user with the provided ID
+      parameters:
+      - description: Email data
+        in: body
+        name: email
+        required: true
+        schema:
+          $ref: '#/definitions/internal_auth.UpdateEmailDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a user's email
+      tags:
+      - Auth | Protected
+  /protected/auth/me:
+    get:
+      consumes:
+      - application/json
+      description: Get the information of the authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-internal_auth_AuthDataDTO'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get authenticated user's information
+      tags:
+      - Auth | Protected
+  /protected/auth/password:
+    put:
+      consumes:
+      - application/json
+      description: Update the password of a user with the provided ID
+      parameters:
+      - description: Password data
+        in: body
+        name: password
+        required: true
+        schema:
+          $ref: '#/definitions/internal_auth.UpdatePasswordDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a user's password
+      tags:
+      - Auth | Protected
+  /protected/auth/phone:
+    put:
+      consumes:
+      - application/json
+      description: Update the phone of a user with the provided ID
+      parameters:
+      - description: Phone data
+        in: body
+        name: phone
+        required: true
+        schema:
+          $ref: '#/definitions/internal_auth.UpdatePhoneDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_MessageDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a user's phone
+      tags:
+      - Auth | Protected
+  /protected/collaborator/my-roles:
+    get:
+      consumes:
+      - application/json
+      description: List collaborator roles for the authenticated account
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_collaborator_AccountCollaboratorDTO'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: List my collaborator roles
+      tags:
+      - Collaborator | Protected
+  /protected/participation/my:
+    get:
+      consumes:
+      - application/json
+      description: List participations for the authenticated collaborator
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.Response-go-tasks_internal_pkg_httpx_Paginated-internal_participation_CollaboratorParticipationDTO'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/go-tasks_internal_pkg_httpx.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: List my participations
+      tags:
+      - Participation | Protected
+schemes:
+- http
+- https
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
+tags:
+- description: Authentication endpoints accessible without a token
+  name: Auth | Public
+- description: Authentication endpoints requiring a valid token
+  name: Auth | Protected
+- description: Company management endpoints requiring Admin or Ops role
+  name: Company | Admin or Ops
+- description: Collaborator endpoints requiring Company Owner role
+  name: Collaborator | Company Owner
+- description: Collaborator endpoints for company members
+  name: Collaborator | Company
+- description: Activity endpoints requiring Company Manager or Owner role
+  name: Activity | Company Manager or Owner
+- description: Participation endpoints requiring Company Manager or Owner role
+  name: Participation | Company Manager or Owner
+- description: Participation endpoints for authenticated users
+  name: Participation | Protected
+- description: Rating endpoints requiring Company Manager or Owner role
+  name: Rating | Company Manager or Owner
+- description: Task endpoints requiring Company Manager or Owner role
+  name: Task | Company Manager or Owner
+- description: Task endpoints for company members
+  name: Task | Company
+- description: Assignment endpoints requiring Company Manager or Owner role
+  name: Assignment | Company Manager or Owner

@@ -1,0 +1,33 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+cmd = "go build -o ./tmp/go-tasks ./cmd/api"
+bin = "./tmp/go-tasks"
+# Wrap execution with sh to avoid immediate exit issues on macOS terminals
+full_bin = "sh -c './tmp/go-tasks'"
+include_ext = ["go"]
+exclude_dir = ["tmp", "vendor", "docs", "migrations", "db"]
+delay = 1000
+stop_on_error = true
+
+[env]
+APP_PORT = "8080"
+DATABASE_DRIVER = "sqlite3"
+DATABASE_URL = "./db/go-tasks.db"
+LOG_LEVEL = "debug"
+HTTP_LOG = "true"
+APP_ENV = "local"
+GIN_MODE = "debug"
+
+[log]
+time = true
+
+[color]
+main = "yellow"
+watcher = "cyan"
+build = "green"
+runner = "magenta"
+
+[misc]
+clean_on_exit = true

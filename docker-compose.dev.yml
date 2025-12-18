@@ -1,0 +1,32 @@
+services:
+  app:
+    build:
+      context: .
+      target: dev
+    working_dir: /app
+    env_file:
+      - .env.docker
+    volumes:
+      - ./:/app
+      - go-cache:/go/pkg/mod
+      - go-build-cache:/root/.cache/go-build
+    # Override command for development with more verbose output
+    command: >
+      sh -c "
+        echo 'Installing development dependencies...' &&
+        go install github.com/swaggo/swag/cmd/swag@latest &&
+        go install github.com/air-verse/air@latest &&
+        echo 'Generating API documentation...' &&
+        make docs &&
+        echo 'Running database migrations...' &&
+        make migrate-up &&
+        echo 'Starting development server with hot reloading...' &&
+        air
+      "
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  go-cache:
+  go-build-cache:
