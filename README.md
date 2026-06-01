@@ -1,7 +1,27 @@
 # GoTasks
 
+A modular REST API backend demonstrating Go best practices with Gin, GORM, and PostgreSQL.
+
+---
+
+## 📚 Documentation & Specifications
+
+This project follows **Specification-Driven Development** principles. Start here:
+
+- **[SPEC.md](SPEC.md)** - Technical architecture, module registry, API specification, database design
+- **[.instructions.md](.instructions.md)** - Development guidelines, patterns, and Go idioms for contributors
+- **[.agent.md](.agent.md)** - AI agent configuration (Claude, Cursor, etc.)
+- **[STRUCTURE.md](STRUCTURE.md)** - Visual guide to the modular architecture pattern
+
+### Quick Links
+- **Architecture**: [See SPEC.md](SPEC.md#3-architecture)
+- **Module Pattern**: [See .instructions.md](.instructions.md#-module-pattern--naming)
+- **Development Workflow**: [See .instructions.md](.instructions.md#-common-development-workflows)
+
+---
 
 ## Table of Contents
+- [Documentation](#📚-documentation--specifications)
 - [Commands](#commands)
 - [Makefile Commands](#makefile-commands)
 - [Debugging with Hot Reload](#debugging-with-hot-reload)
