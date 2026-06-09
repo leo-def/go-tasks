@@ -1,493 +1,246 @@
 # GoTasks - Technical Specification
 
-> Technical specification and architectural decisions for the GoTasks backend API project.
-> Reference for understanding the modular architecture and design patterns.
+> Go 1.25 + Gin + GORM REST API for company task and activity management with JWT authentication.
+> Demonstrates modular Go architecture with 12 isolated domain modules.
 
 ## Executive Summary
 
-- **Project**: GoTasks
-- **Version**: 1.0.0
-- **Type**: REST API / Microservice
-- **Language**: Go 1.25+
-- **Status**: Active Development
-- **Owner**: Development team
+GoTasks is a **Go 1.25 + Gin + GORM** REST API for managing company operations: accounts, collaborators, companies, activities, tasks, assignments, lifecycles, ratings, and participations. It uses a modular architecture where each domain is a self-contained package (`model.go`, `repository.go`, `service.go`, `handler/controller.go`, `module.go`). Authentication is JWT-based. Database is PostgreSQL in production, SQLite in testing. API documentation is auto-generated via Swagger.
 
 ---
 
 ## 1. Problem Statement
 
 ### Context
-GoTasks is a modular Go backend application that demonstrates best practices in API design, with support for task management, company operations, user authentication, and more.
+A collaborative task management platform for companies: companies onboard staff as collaborators, create activities with lifecycle tracking, assign tasks to collaborators, and rate performance.
 
 ### Goals
-- **Primary**: Provide scalable, well-structured REST API with clean architecture
-- **Secondary**: Demonstrate Go best practices (modules, dependency injection, error handling)
-- **Tertiary**: Serve as reference implementation for modular backend design
+- Company and collaborator management with role-based access
+- Activity and task lifecycle tracking (status: pending → in_progress → done)
+- JWT authentication with role-based permissions (Admin, Ops, Owner, Manager)
+- Task assignment and performance rating
+- OpenAPI/Swagger documentation
+- PostgreSQL production DB + SQLite for tests
 
 ### Success Metrics
-- [x] Modular structure with isolated domains (13+ modules)
-- [x] Type-safe with GORM ORM
-- [x] JWT-based authentication
-- [x] Database migrations and versioning
-- [x] OpenAPI/Swagger documentation
-- [ ] 100% test coverage on critical paths
+- [x] 12 isolated domain modules
+- [x] JWT-based RBAC (Admin/Ops/Owner/Manager roles)
+- [x] Database transactions for atomic operations
+- [x] Swagger/OpenAPI auto-generated docs
+- [x] PostgreSQL + SQLite support (GORM dialects)
+- [ ] 85%+ test coverage on service layer
 - [ ] Response time p99 < 50ms
 
 ---
 
 ## 2. Technology Stack
 
-| Component | Technology | Version | Rationale |
-|-----------|-----------|---------|-----------|
-| Runtime | Go | 1.25+ | Performance, concurrency, static typing |
-| Web Framework | Gin | Latest | Fast, minimalist HTTP router with middleware |
-| ORM | GORM | v1 | Type-safe database abstraction, migrations |
-| Database | PostgreSQL | 15+ | Production-grade relational DB, JSON support |
-| Auth | JWT | Custom | Stateless, scalable authentication |
-| API Docs | Swagger/OpenAPI | 3.0 | Auto-generated API documentation |
-| Testing | Go testing + Testify | - | Standard Go testing with assertions |
-| Hot Reload | Air | Latest | Development convenience |
-| Debugging | Delve | Latest | Go debugger with IDE support |
-
-### Key Dependencies
-- `gin-gonic/gin`: HTTP router framework
-- `gorm.io/gorm`: Object-relational mapper
-- `gorm.io/driver/postgres`: PostgreSQL driver
-- `golang-jwt/jwt`: JWT token handling
-- `testify/assert`: Testing assertions
+| Component | Technology | Version |
+|-----------|-----------|---------|
+| Language | Go | 1.25.2 |
+| HTTP Router | Gin | v1.11.0 |
+| ORM | GORM | v1.31.1 |
+| DB (production) | PostgreSQL | 15+ |
+| DB (testing) | SQLite | v1.6.0 |
+| Auth | golang-jwt/jwt | v5.3.0 |
+| IDs | Google UUID | v1.6.0 |
+| API Docs | Swaggo (Swagger) | v1.16.6 |
+| Hashing | golang.org/x/crypto | v0.45.0 |
+| Hot Reload | Air | Latest |
+| Debugger | Delve | Latest |
+| Testing | Testify | v1.11.1 |
+| Mocking | go.uber.org/mock | v0.5.0 |
 
 ---
 
 ## 3. Architecture
 
-### High-Level Architecture
-
 ```
-┌──────────────────────────────────────────────────────┐
-│                  HTTP Clients                        │
-└──────────────────────┬───────────────────────────────┘
-                       │ HTTP/REST
-                       ▼
-┌──────────────────────────────────────────────────────┐
-│              Gin Router + Middleware                 │
-│  (JWT Auth, Logging, Error Handling, CORS)          │
-└──────────────────────┬───────────────────────────────┘
-                       │
-         ┌─────────────┴─────────────┐
-         │                           │
-    ┌────▼──────────────┐   ┌────────▼────────────┐
-    │   Module Layer    │   │   Shared Layer      │
-    │  (13 modules)     │   │  (pkg/utilities)    │
-    └────┬──────────────┘   └────────┬────────────┘
-         │                           │
-    ┌────▼──────────────────────────▼────┐
-    │      Service & Repository Layer     │
-    │  (Business logic + Data access)     │
-    └────┬──────────────────────────────┬─┘
-         │                              │
-         │          ┌──────────────────┘
-         │          │
-         ▼          ▼
-    ┌─────────────────────┐
-    │   PostgreSQL DB     │
-    │   (GORM Models)     │
-    └─────────────────────┘
+┌────────────────────────────────────────────┐
+│         HTTP Clients                        │
+└─────────────────┬──────────────────────────┘
+                  │ HTTP/REST
+                  ▼
+┌────────────────────────────────────────────┐
+│   Gin Router + Middleware                   │
+│   (JWT Auth, Logging, Error Handling, CORS) │
+└─────────────────┬──────────────────────────┘
+                  │
+       ┌──────────┴──────────┐
+       ▼                     ▼
+ Module Layer          Shared Layer (pkg/)
+ (12 domains)          logger, response, httpx
+       │
+       ▼
+ Service + Repository Layer
+ (Business logic + GORM queries)
+       │
+       ▼
+ PostgreSQL (GORM, UUID primary keys)
 ```
-
-### Layer Responsibilities
-
-#### 1. **HTTP Layer** (`cmd/api/main.go`, `internal/server/`)
-- Parse HTTP requests
-- Apply middleware (JWT, logging, error handling)
-- Route requests to module handlers
-- Format HTTP responses
-- Handle CORS and security headers
-
-**Testability**: Integration tests with mocked services
-
-#### 2. **Module Layer** (`internal/{module}/`)
-Each module has:
-- `model.go`: GORM models (database schema)
-- `repository.go`: Database operations (CRUD)
-- `service.go`: Business logic
-- `handler.go`: HTTP endpoint handlers
-- `module.go`: Module initialization and registration
-
-**Testability**: Unit tests for each component; mock repository in service tests
-
-#### 3. **Shared Layer** (`pkg/`)
-- `logger/`: Structured logging
-- `response/`: Standard response formatting
-- `errors/`: Custom error types
-- Other utilities shared across modules
-
-**Testability**: Unit tests for utilities
-
-#### 4. **Data Layer** (PostgreSQL + GORM)
-- Database models and schemas
-- Migrations and versioning
-- Indexes and constraints
-- Connection pooling
-
-**Testability**: Integration tests with test database
 
 ---
 
-## 4. Core Patterns & Decisions
+## 4. Module Registry (12 Domains)
 
-### Pattern 1: Modular Architecture (DDD-inspired)
-- **Use When**: Organizing features into independent domains
-- **Implementation**: Each module (user, task, company, etc.) is self-contained
-- **Rationale**: Isolates complexity, enables parallel development
-- **Example**: `internal/user/module.go` registers all user-related components
-
-### Pattern 2: Dependency Injection (Constructor-based)
-- **Use When**: Creating services and repositories
-- **Implementation**: Pass dependencies through function parameters
-- **Rationale**: Enables testing with mocks, reduces coupling
-- **Example**: `NewService(repo Repository) Service`
-
-### Pattern 3: Repository Pattern
-- **Use When**: Accessing data
-- **Implementation**: Each model has a repository with CRUD methods
-- **Rationale**: Abstracts database details, enables easy testing
-- **Example**: `UserRepository` interface with `FindByID`, `Create`, `Update`, `Delete`
-
-### Pattern 4: Error Handling with Context
-- **Use When**: Any operation that can fail
-- **Implementation**: Custom error types with wrapped errors
-- **Rationale**: Provides context for debugging and error recovery
-- **Example**: `fmt.Errorf("failed to get user %d: %w", userID, err)`
-
-### Pattern 5: Middleware for Cross-Cutting Concerns
-- **Use When**: Implementing authentication, logging, error handling
-- **Implementation**: Gin middleware functions
-- **Rationale**: Centralizes common concerns, reduces code duplication
-- **Example**: JWT authentication middleware, request logging
+| Module | Purpose | Key Files |
+|--------|---------|-----------|
+| `account` | User accounts (login, register) | model, repository, service, controller |
+| `auth` | JWT authentication + middleware | JWT generation, middleware |
+| `collaborator` | Company staff with roles | model (Role, AccountID, CompanyID) |
+| `company` | Company management | CRUD + listing |
+| `activity` | Activities within a company | Activity + lifecycle + owner/collaborator controllers |
+| `task` | Tasks within an activity | Create/update/delete with lifecycle |
+| `lifecycle` | Lifecycle state machine | InitDate, DueDate, Status, StatusUpdates |
+| `assignment` | Task assignment to collaborators | AssignTask, UnassignTask |
+| `participation` | User participation in activities | Join/leave activities |
+| `rating` | Performance ratings | Rate collaborator performance |
+| `health` | Health check endpoint | `GET /health` |
+| `app` | App orchestration + seeding | Routes registration, DB seed |
 
 ---
 
-## 5. Module Registry (13+ Domains)
+## 5. Data Models (Key Structures)
 
-### Core Modules
-| Module | Purpose | Models | Key Operations |
-|--------|---------|--------|-----------------|
-| user | User management | User | Create, Read, Update, Delete, FindByEmail |
-| task | Task management | Task | Create, ReadByID, ListByUser, UpdateStatus |
-| company | Company management | Company | Create, Read, Update, List |
-| auth | Authentication | - | Login, Verify token, Refresh |
-| project | Project organization | Project | CRUD, List by company |
-
-### Supporting Modules
-[Continue with other 8+ modules based on actual project]
-
-### Module Initialization Order
-1. Load configuration
-2. Connect to database
-3. Initialize shared utilities (logger, response formatter)
-4. Initialize each module (in dependency order)
-5. Register routes on Gin engine
-
----
-
-## 6. API Specification
-
-### REST Endpoints (Examples)
-```
-POST   /api/v1/auth/login              - User login
-POST   /api/v1/auth/refresh            - Refresh JWT token
-
-GET    /api/v1/users                   - List users (admin only)
-GET    /api/v1/users/:id               - Get user details
-POST   /api/v1/users                   - Create user
-PUT    /api/v1/users/:id               - Update user
-DELETE /api/v1/users/:id               - Delete user
-
-GET    /api/v1/tasks                   - List tasks (user's tasks)
-GET    /api/v1/tasks/:id               - Get task details
-POST   /api/v1/tasks                   - Create task
-PUT    /api/v1/tasks/:id               - Update task
-DELETE /api/v1/tasks/:id               - Delete task
-
-[Continue with company, project, etc.]
-```
-
-### Authentication & Authorization
-- **Method**: JWT (JSON Web Tokens)
-- **Token Location**: `Authorization: Bearer <token>`
-- **Scopes**: `user`, `admin` (can extend)
-- **Expiration**: 1 hour (access token), 7 days (refresh token)
-- **Validation**: Middleware validates token on protected routes
-
-### Response Format
-```json
-{
-  "success": true,
-  "data": { /* payload */ },
-  "error": null,
-  "timestamp": "2024-06-01T10:30:00Z"
+```go
+// TaskInfo — stored in "tasks" table
+type TaskInfo struct {
+    ID          uuid.UUID  `gorm:"type:uuid;primaryKey;default:gen_random_uuid()"`
+    Title       string     `gorm:"not null"`
+    ActivityID  uuid.UUID  `gorm:"type:uuid;not null"`
+    LifecycleID uuid.UUID  `gorm:"type:uuid;not null"`
+    CreatedAt   time.Time
+    UpdatedAt   time.Time
+    DeletedAt   time.Time  // ⚠️ Bug: should be gorm.DeletedAt
 }
 
-// Error response
-{
-  "success": false,
-  "data": null,
-  "error": {
-    "code": "USER_NOT_FOUND",
-    "message": "User not found",
-    "details": null
-  },
-  "timestamp": "2024-06-01T10:30:00Z"
+// TaskLifecycle — "lifecycles" table
+type TaskLifecycle struct {
+    ID       uuid.UUID
+    InitDate time.Time    `gorm:"not null"`
+    DueDate  time.Time    `gorm:"not null"`
+    Status   string       `gorm:"not null"`
+    Updates  []TaskStatusUpdate
+}
+
+// TaskCollaborator — "collaborators" table
+type TaskCollaborator struct {
+    ID        uuid.UUID
+    Role      string
+    AccountID uuid.UUID
+    CompanyID uuid.UUID
+    Account   TaskAccount  // ⚠️ Bug: exposes password hash in JSON
 }
 ```
 
 ---
 
-## 7. Database Schema & Migrations
+## 6. API Endpoints
 
-### Migration Strategy
-- Tool: Custom migration runner or GORM auto-migration (documented approach)
-- Location: `migrations/` directory
-- Versioning: Timestamp-based (e.g., `001_create_users_table.sql`)
-- Rollback: Each migration has up and down versions
+```
+# Auth
+POST /api/v1/auth/login
+POST /api/v1/auth/register
 
-### Key Tables
-- `users`: User accounts and credentials
-- `tasks`: Task records
-- `companies`: Organization data
-- `projects`: Project organization
-- `user_company_roles`: Role-based access control
+# Account
+GET/POST/PUT/DELETE /api/v1/accounts
+GET /api/v1/accounts/:id
 
-### Indexes
-- `users(email)`: Unique index for login
-- `tasks(user_id, status)`: Optimize task list queries
-- `tasks(created_at)`: For sorting and pagination
+# Company
+GET/POST/PUT/DELETE /api/v1/companies
+GET /api/v1/companies/:id
+
+# Collaborator
+GET/POST/PUT/DELETE /api/v1/collaborators
+GET /api/v1/collaborators/:id
+
+# Activity
+GET/POST/PUT/DELETE /api/v1/activities
+GET /api/v1/activities/:id
+GET /api/v1/companies/:id/activities   ← by company
+
+# Task
+GET/POST/PUT/DELETE /api/v1/tasks
+GET /api/v1/activities/:id/tasks       ← by activity
+PUT /api/v1/tasks/:id/status           ← status update
+
+# Assignment
+POST/DELETE /api/v1/assignments
+
+# Rating
+GET/POST /api/v1/ratings
+
+# Health
+GET /api/v1/health
+
+# Swagger
+GET /swagger/index.html
+```
+
+---
+
+## 7. Task Creation (Transactional Pattern)
+
+```go
+// service-activity.go — atomic task creation
+func (s *serviceActivity) Create(task *Task, activityID uuid.UUID) error {
+    tx := s.repository.GetConnection().BeginTransaction()
+    // 1. Create lifecycle record
+    if err := s.lifecycleService.CreateTx(tx, &lifecycle); err != nil {
+        tx.Rollback(); return err
+    }
+    // 2. Create task with lifecycle FK
+    if err := s.repository.CreateInfoTx(tx, &task.TaskInfo); err != nil {
+        tx.Rollback(); return err
+    }
+    return tx.Commit()
+}
+```
 
 ---
 
 ## 8. Testing Strategy
 
-### Unit Tests
-- **Location**: `{module}/{file}_test.go` (colocated)
-- **Coverage Target**: >85% on services and handlers
-- **Framework**: Go testing + Testify/assert
-- **Pattern**: Table-driven tests for multiple scenarios
-
-### Integration Tests
-- **Location**: `tests/integration/` (separate)
-- **Database**: Test database with fixtures
-- **Setup**: Use Docker for PostgreSQL in CI
-- **Coverage**: Key workflows and module interactions
-
-### E2E Tests (Optional)
-- **Location**: `tests/e2e/`
-- **Approach**: Run against staging environment
-- **Scope**: Critical user journeys
-
-### How to Run Tests
 ```bash
-make test              # Run all tests
-make test-race        # Detect race conditions
-make test-cover       # Coverage report
-make test-cover-html  # HTML coverage report
+make test              # All tests
+make test-race         # Race condition detection
+make test-cover        # Coverage report
+make test-cover-html   # HTML coverage report
 ```
+
+- Test database: SQLite (GORM `gorm.io/driver/sqlite`)
+- Mocking: `go.uber.org/mock`
+- Assertions: `testify/assert`
 
 ---
 
 ## 9. Deployment & Operations
 
-### Environment Variables
-| Variable | Purpose | Example |
-|----------|---------|---------|
-| `DATABASE_URL` | PostgreSQL connection | `postgres://user:pass@localhost/gotas` |
-| `JWT_SECRET` | JWT signing key | `your-super-secret-key` |
-| `PORT` | Server port | `8080` |
-| `GIN_MODE` | Environment (debug/release) | `release` |
-| `LOG_LEVEL` | Logging level | `info` |
-
-### Configuration Loading
-1. Defaults in code
-2. `.env` file (development only)
-3. Environment variables (override)
-4. CLI flags (override everything)
-
-### Running Applications
 ```bash
-make run              # Build and run
-make dev              # Development with hot reload (Air)
-make debug            # Debugging with Delve
+make run        # Build and run
+make dev        # Hot reload with Air
+make debug      # Delve debugger
+
+# Docker
+docker-compose up
 ```
 
----
-
-## 10. Performance Characteristics
-
-### Current Capacity
-- **Throughput**: ~500-1000 requests/sec (single instance)
-- **Latency**: p50 ~5ms, p99 ~50ms
-- **Concurrency**: Handles 1000+ concurrent connections (Go goroutines)
-- **Memory**: ~50-100MB baseline
-
-### Database Optimization
-- Connection pooling (GORM default)
-- Strategic indexes on hot paths
-- Pagination for list endpoints
-- Query optimization with eager loading
-
-### Scaling Strategy
-- Horizontal scaling (multiple instances)
-- Load balancer (nginx, HAProxy)
-- Read replicas for reporting
-- Caching layer (Redis) if needed
+**Env vars:** `DATABASE_URL`, `JWT_SECRET`, `PORT`, `GIN_MODE`, `LOG_LEVEL`
 
 ---
 
-## 11. Error Handling Strategy
+## 10. Issues Found
 
-### Error Types
-```go
-// Custom error types
-type ValidationError struct {
-    Code    string
-    Message string
-    Field   string
-}
+### Critical Bugs
+- **`DeletedAt time.Time` (not `gorm.DeletedAt`)** in `TaskInfo`, `TaskActivity`, `TaskLifecycle`, and `TaskCollaborator` models — GORM's soft-delete feature requires the field type to be `gorm.DeletedAt` (a pointer-based nullable type with `Valid bool`). Using plain `time.Time` means GORM's `Unscoped` / soft-delete queries will not work as expected; deletes may permanently remove records or soft-delete won't filter properly.
 
-type NotFoundError struct {
-    Resource string
-    ID       interface{}
-}
+- **`TaskCollaborator` embeds `TaskAccount` which contains password hash** — if `TaskAccount` has a `Password` or `PasswordHash` field with `json:"-"` missing, the password hash is serialized in API responses containing collaborator data.
 
-type UnauthorizedError struct {
-    Message string
-}
-```
+- **Foreign key typo in `TaskActivity.Lifecycle`**: `gorm:"foreignKey:LifecycleID;reference:ID"` — should be `references:ID` (plural). The singular form is silently ignored by GORM, potentially causing incorrect join behavior.
 
-### Error Responses
-| Status | Code | Meaning |
-|--------|------|---------|
-| 400 | `VALIDATION_ERROR` | Input validation failed |
-| 401 | `UNAUTHORIZED` | Missing or invalid token |
-| 403 | `FORBIDDEN` | Insufficient permissions |
-| 404 | `NOT_FOUND` | Resource not found |
-| 500 | `INTERNAL_ERROR` | Server error |
+### Security
+- Password hash should have `json:"-"` tag on the account model to prevent serialization.
+- JWT secret should be validated at startup — if `JWT_SECRET` is empty, tokens would be signed with an empty key.
 
-### Error Handling Flow
-```
-Handler receives request
-    ↓
-Validate input (return 400 if invalid)
-    ↓
-Service processes (may return domain error)
-    ↓
-Catch error, map to HTTP status
-    ↓
-Return JSON error response with status code
-```
-
----
-
-## 12. Security Considerations
-
-### Authentication
-- JWT tokens with expiration
-- Refresh token rotation
-- Secure password hashing (bcrypt)
-
-### Authorization
-- Role-based access control (RBAC)
-- Middleware checks permissions
-- Row-level security where needed
-
-### Input Validation
-- Validate all incoming data
-- Sanitize before database operations
-- Use type safety (Go's static typing)
-
-### Data Protection
-- Passwords hashed and salted
-- Sensitive data not logged
-- HTTPS in production
-- CORS configured securely
-
----
-
-## 13. Known Issues & Future Work
-
-### Current Limitations
-- [ ] No caching layer yet (Redis)
-- [ ] No async job queue (Bull, Celery)
-- [ ] No event streaming (Kafka)
-- [ ] Basic RBAC (no fine-grained permissions)
-
-### Planned Improvements
-- [ ] Add Redis caching
-- [ ] Implement async job processing
-- [ ] Add audit logging
-- [ ] Event-driven architecture for complex workflows
-- [ ] GraphQL API option
-
----
-
-## 14. File Structure Reference
-
-```
-go-tasks/
-├── cmd/
-│   └── api/
-│       └── main.go              # Entry point
-├── config/
-│   ├── config.go                # Configuration loading
-│   └── database.go              # DB setup
-├── internal/
-│   ├── server/
-│   │   └── server.go            # Gin engine setup
-│   ├── core/
-│   │   ├── module.go            # Module interface
-│   │   └── container.go         # DI container
-│   ├── user/
-│   │   ├── model.go
-│   │   ├── repository.go
-│   │   ├── service.go
-│   │   ├── handler.go
-│   │   └── module.go
-│   ├── task/                    # Similar structure
-│   ├── company/                 # Similar structure
-│   └── [other modules]/
-├── pkg/
-│   ├── logger/
-│   ├── response/
-│   ├── errors/
-│   └── middleware/
-├── migrations/
-│   ├── 001_create_tables.sql
-│   └── 002_add_indexes.sql
-├── tests/
-│   ├── unit/
-│   └── integration/
-├── docs/                        # Generated Swagger docs
-├── Makefile
-├── go.mod
-├── go.sum
-├── .env.example
-├── docker-compose.yml
-├── README.md
-├── SPEC.md                      # This file
-├── .instructions.md
-└── .agent.md
-```
-
----
-
-## References & Standards
-
-- [Go Code Review Comments](https://github.com/golang/go/wiki/CodeReviewComments)
-- [Gin Documentation](https://gin-gonic.com/)
-- [GORM Documentation](https://gorm.io)
-- [REST API Best Practices](https://restfulapi.net/)
-- [JWT RFC 7519](https://tools.ietf.org/html/rfc7519)
-
----
-
-**Version History**
-- v1.0 (2024-06-01): Initial specification
+### Performance
+- No pagination default limit — list endpoints could return unbounded result sets.
